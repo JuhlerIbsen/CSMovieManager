@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
+using VideoAppDAL.Repositorys;
 
 namespace VideoAppDAL
 {
     public class DALFacade
     {
-        public FakeDB FakeDb { get => (new FakeDB()); }
+        public MovieRepositoryFakeDB MovieRepositoryFakeDb { get { return (new MovieRepositoryFakeDB()); } }
     }
 }

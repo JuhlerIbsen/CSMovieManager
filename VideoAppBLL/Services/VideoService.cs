@@ -8,8 +8,12 @@ namespace VideoAppBLL.Services
 {
     class VideoService : IService<Movie>
     {
+        private IRepository<Movie> repository;
 
-        private DALFacade dalFacade = new DALFacade();
+        public VideoService(IRepository<Movie> repository)
+        {
+            this.repository = repository;
+        }
 
         /// <summary>
         /// Add a movie to the database.
@@ -18,11 +22,7 @@ namespace VideoAppBLL.Services
         /// <returns>the movie that has been added to the database.</returns>
         public Movie Add(Movie movie)
         {
-            Movie newMovie = null;
-
-            dalFacade.FakeDb.movieDb.Add(newMovie = movie);
-
-            return newMovie;
+            return repository.Add(movie);
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace VideoAppBLL.Services
         /// <returns>All movies in the database.</returns>
         public List<Movie> ListAll()
         {
-            return dalFacade.FakeDb.movieDb;
+            return repository.ListAll();
         }
 
         /// <summary>
@@ -39,14 +39,9 @@ namespace VideoAppBLL.Services
         /// </summary>
         /// <param name="id">id of the movie we want to find.</param>
         /// <returns>movie that was found.</returns>
-        public Movie FindById(int id)
+        public Movie FindById(int movieId)
         {
-            var foundMovies = from movie
-                in dalFacade.FakeDb.movieDb
-                where movie.Id == id
-                select movie;
-
-            return foundMovies.FirstOrDefault();
+            return repository.FindById(movieId);
         }
 
         /// <summary>
@@ -81,7 +76,7 @@ namespace VideoAppBLL.Services
         /// <returns>checks if the movie was deleted succesfully</returns>
         public bool Delete(int movieId)
         {
-            return (dalFacade.FakeDb.movieDb.RemoveAll(video => video.Id == movieId) > 0);
+            return repository.Delete(movieId);
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace VideoAppDAL
 {
-    interface IRepository<T>
+    public interface IRepository<T>
     {
         T Add(T type);
         List<T> ListAll();
