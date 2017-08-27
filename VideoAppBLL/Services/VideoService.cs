@@ -17,13 +17,7 @@ namespace VideoAppBLL.Services
         {
             Movie newMovie = null;
 
-            FakeDB.movies.Add(newMovie = new Movie
-            {
-                Title = movie.Title,
-                Duration = movie.Duration,
-                Extention = movie.Extention,
-                MovieGenre = movie.MovieGenre
-            });
+            FakeDB.movies.Add(newMovie = movie);
 
             return newMovie;
         }
