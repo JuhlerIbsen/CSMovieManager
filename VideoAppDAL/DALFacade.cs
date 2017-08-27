@@ -5,6 +5,7 @@ using System.Text;
 using CSVideoMenu;
 using VideoAppDAL.Context;
 using VideoAppDAL.Repositorys;
+using VideoAppDAL.UOW;
 
 namespace VideoAppDAL
 {
@@ -14,6 +15,14 @@ namespace VideoAppDAL
         {
             // get { return (new MovieRepositoryFakeDB()); }
             get { return ((new MovieRepositoryEFMemory(new Context.InMemoryContext()))); }
+        }
+
+        public IUnitOfWork UnitOfWork
+        {
+            get
+            {
+                return new UnitOfWorkMemory();
+            }
         }
     }
 }

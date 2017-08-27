@@ -20,7 +20,6 @@ namespace VideoAppDAL.Repositorys
         public Movie Add(Movie movie)
         {
             context.Movies.Add(movie);
-            context.SaveChanges();
             return movie;
         }
 
@@ -38,7 +37,6 @@ namespace VideoAppDAL.Repositorys
         {
             var movie = FindById(movieId);
             context.Movies.Remove(movie);
-            context.SaveChanges();
             return movie != null;
         }
     }

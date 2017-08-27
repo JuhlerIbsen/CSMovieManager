@@ -217,6 +217,7 @@ namespace CSVideoMenu
                 ChooseDuration(movie);
                 ChooseFileType(movie);
 
+                bllFacade.VideoService.Update(movie);
             }
 
             Console.WriteLine("Movie have been edited.");

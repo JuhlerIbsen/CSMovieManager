@@ -8,11 +8,11 @@ namespace VideoAppBLL.Services
 {
     class VideoService : IService<Movie>
     {
-        private IRepository<Movie> repository;
+        private DALFacade dalFacade;
 
-        public VideoService(IRepository<Movie> repository)
+        public VideoService(DALFacade dalFacade)
         {
-            this.repository = repository;
+            this.dalFacade = dalFacade;
         }
 
         /// <summary>
@@ -22,7 +22,13 @@ namespace VideoAppBLL.Services
         /// <returns>the movie that has been added to the database.</returns>
         public Movie Add(Movie movie)
         {
-            return repository.Add(movie);
+            using (var unitOfWork = dalFacade.UnitOfWork)
+            {
+                var newMovie = unitOfWork.MovieRepository.Add(movie);
+                unitOfWork.Complete();
+                unitOfWork.Dispose();
+                return newMovie;
+            }
         }
 
         /// <summary>
@@ -31,7 +37,10 @@ namespace VideoAppBLL.Services
         /// <returns>All movies in the database.</returns>
         public List<Movie> ListAll()
         {
-            return repository.ListAll();
+            using (var unitOfWork = dalFacade.UnitOfWork)
+            {
+                return unitOfWork.MovieRepository.ListAll();
+            }
         }
 
         /// <summary>
@@ -41,7 +50,10 @@ namespace VideoAppBLL.Services
         /// <returns>movie that was found.</returns>
         public Movie FindById(int movieId)
         {
-            return repository.FindById(movieId);
+            using (var unitOfWork = dalFacade.UnitOfWork)
+            {
+                return unitOfWork.MovieRepository.FindById(movieId);
+            }
         }
 
         /// <summary>
@@ -51,22 +63,26 @@ namespace VideoAppBLL.Services
         /// <returns>Updated version of movie.</returns>
         public Movie Update(Movie movie)
         {
-            var movieFromDb = FindById(movie.Id);
-
-            if (movieFromDb != null)
+            using (var unitOfWork = dalFacade.UnitOfWork)
             {
-                movieFromDb.Title = movie.Title;
-                movieFromDb.Duration = movie.Duration;
-                movieFromDb.Extention = movie.Extention;
-                movieFromDb.MovieGenre = movie.MovieGenre;
-            }
-            else
-            {
-                throw new InvalidOperationException("Movie not found.");
-            }
+                var movieFromDb = unitOfWork.MovieRepository.FindById(movie.Id);
 
-            return movieFromDb;
+                if (movieFromDb != null)
+                {
+                    movieFromDb.Title = movie.Title;
+                    movieFromDb.Duration = movie.Duration;
+                    movieFromDb.Extention = movie.Extention;
+                    movieFromDb.MovieGenre = movie.MovieGenre;
 
+                    unitOfWork.Complete();
+                }
+                else
+                {
+                    throw new InvalidOperationException("Movie not found.");
+                }
+
+                return movieFromDb;
+            }
         }
 
         /// <summary>
@@ -76,7 +92,12 @@ namespace VideoAppBLL.Services
         /// <returns>checks if the movie was deleted succesfully</returns>
         public bool Delete(int movieId)
         {
-            return repository.Delete(movieId);
+            using (var unitOfWork = dalFacade.UnitOfWork)
+            {
+                var newMovie = unitOfWork.MovieRepository.Delete(movieId);
+                unitOfWork.Complete();
+                return newMovie;
+            }
         }
     }
 }
