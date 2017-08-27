@@ -4,12 +4,12 @@ using System.Text;
 
 namespace CSVideoMenu
 {
-    class Movie
+    public class Movie
     {
         
         // Enums should probably not be in the same class as the entity.
         // Did it anyway.. (Mwhaha)
-        internal enum Genre
+        public enum Genre
         {
             NoGenre,
             Comedy,
@@ -17,7 +17,7 @@ namespace CSVideoMenu
             Romantique
         }
 
-        internal enum FileType
+        public enum FileType
         {
             MP4,
             MKV,
@@ -28,6 +28,10 @@ namespace CSVideoMenu
 
         public Movie()
         {
+            // TODO: Find a work around.
+            // Entity frameworks initialize a new Movie on every operation.
+            // So each time I create/read/update/delete this will count 1 up 
+            // for each of the Movies inside the list.
             _id ++;
             Id = _id;
         }

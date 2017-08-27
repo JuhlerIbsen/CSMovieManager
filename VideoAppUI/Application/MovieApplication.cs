@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using VideoAppBLL;
 
 namespace CSVideoMenu
 {
-    class MovieManager
+    public class MovieApplication
     {
 
-        private static List<Movie> movies = new List<Movie>();
+        private static BLLFacade bllFacade = new BLLFacade();
 
         /// <summary>
         /// Start the application.
@@ -23,18 +24,18 @@ namespace CSVideoMenu
 
             var bildeMenuRunning = true;
 
-            while (bildeMenuRunning)
+            string[] menuItems =
             {
-                string[] menuItems =
-                {
-                    "List All Movies",
-                    "Find Movie By Id",
-                    "Add Movie",
-                    "Delete Movie",
-                    "Edit Movie",
-                    "Exit"
-                };
+                "List All Movies",
+                "Find Movie By Id",
+                "Add Movie",
+                "Delete Movie",
+                "Edit Movie",
+                "Exit"
+            };
 
+            while (bildeMenuRunning)
+            { 
                 bildeMenuRunning = UseSelection(ShowMenu(menuItems));
             }
 
@@ -110,7 +111,13 @@ namespace CSVideoMenu
         /// </summary>
         private static void ListAllMovies()
         {
-            foreach (var video in movies)
+
+            var allMovies = bllFacade.VideoService.ListAll();
+
+            if (allMovies.Count <= 0)
+                return;
+
+            foreach (var video in allMovies)
             {
                 Console.WriteLine($"Id: {video.Id} " +
                                   $"Title: {video.Title} " +
@@ -138,9 +145,14 @@ namespace CSVideoMenu
             ChooseFileType(video);
             ChooseDuration(video);
 
-            movies.Add(video);
-
-            Console.WriteLine("Movie succesfully added.");
+            if (bllFacade.VideoService.Add(video) != null)
+            {
+                Console.WriteLine("Movie succesfully added.");
+            }
+            else
+            {
+                Console.WriteLine("Something went wrong.");
+            }
 
         }
 
@@ -152,7 +164,7 @@ namespace CSVideoMenu
             // Show all movies so user can see the available id's.
             ListAllMovies();
 
-            if (movies.Count <= 0)
+            if (bllFacade.VideoService.ListAll().Count <= 0)
             {
                 Console.WriteLine("There are no movies...\n");
                 return;
@@ -161,7 +173,7 @@ namespace CSVideoMenu
             Console.WriteLine("Write id of movie to remove");
             var movieId = int.Parse(Console.ReadLine());
 
-            if (movies.RemoveAll(video => video.Id == movieId) > 0)
+            if (bllFacade.VideoService.Delete(movieId))
             {
                 Console.WriteLine("Movie deleted.");
             }
@@ -182,7 +194,7 @@ namespace CSVideoMenu
             ListAllMovies();
 
             // TODO: This if statement are used twice, make a method.
-            if (movies.Count <= 0)
+            if (bllFacade.VideoService.ListAll().Count <= 0)
             {
                 Console.WriteLine("There are no movies.");
                 return;
@@ -192,7 +204,7 @@ namespace CSVideoMenu
             var id = int.Parse(Console.ReadLine());
 
             IEnumerable<Movie> foundMovies = from movie 
-                                       in movies
+                                       in bllFacade.VideoService.ListAll()
                                        where movie.Id == id
                                        select movie;
 
@@ -205,6 +217,7 @@ namespace CSVideoMenu
                 ChooseDuration(movie);
                 ChooseFileType(movie);
 
+                bllFacade.VideoService.Update(movie);
             }
 
             Console.WriteLine("Movie have been edited.");
@@ -220,7 +233,7 @@ namespace CSVideoMenu
             int id;
 
             // Show all id's to user.
-            foreach (var movie in movies)
+            foreach (var movie in bllFacade.VideoService.ListAll())
             {
                 Console.WriteLine($"Available ID: {movie.Id}");
             }
@@ -233,7 +246,7 @@ namespace CSVideoMenu
             }
 
             IEnumerable<Movie> foundMovies = from movie
-                in movies
+                in bllFacade.VideoService.ListAll()
                 where movie.Id == id
                 select movie;
 
@@ -348,7 +361,7 @@ namespace CSVideoMenu
         /// </summary>
         private static void GenerateMockMovies()
         {
-            movies.Add(new Movie
+            bllFacade.VideoService.Add(new Movie
             {
                 Title = "Michael in the woods.",
                 Duration = 3674 * 3,
@@ -356,7 +369,7 @@ namespace CSVideoMenu
                 MovieGenre = Movie.Genre.Horror
             });
 
-            movies.Add(new Movie
+            bllFacade.VideoService.Add(new Movie
             {
                 Title = "Dude where's Michael",
                 Duration = 4213,
@@ -364,7 +377,7 @@ namespace CSVideoMenu
                 MovieGenre = Movie.Genre.Comedy
             });
 
-            movies.Add(new Movie
+            bllFacade.VideoService.Add(new Movie
             {
                 Title = "Michael rock",
                 Duration = 3600 * 2,
