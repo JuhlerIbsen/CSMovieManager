@@ -7,11 +7,11 @@ using VideoAppDAL.Context;
 
 namespace VideoAppDAL.Repositorys
 {
-    class MovieRepositoryEFMemorycs : IRepository<Movie>
+    class MovieRepositoryEFMemory : IRepository<Movie>
     {
         private InMemoryContext context;
 
-        public MovieRepositoryEFMemorycs(InMemoryContext context)
+        public MovieRepositoryEFMemory(InMemoryContext context)
         {
             this.context = context;
         }
