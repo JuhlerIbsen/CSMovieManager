@@ -8,6 +8,9 @@ namespace VideoAppBLL.Services
 {
     class VideoService : IService<Movie>
     {
+
+        private DALFacade dalFacade = new DALFacade();
+
         /// <summary>
         /// Add a movie to the database.
         /// </summary>
@@ -17,7 +20,7 @@ namespace VideoAppBLL.Services
         {
             Movie newMovie = null;
 
-            FakeDB.movies.Add(newMovie = movie);
+            dalFacade.FakeDb.movieDb.Add(newMovie = movie);
 
             return newMovie;
         }
@@ -28,7 +31,7 @@ namespace VideoAppBLL.Services
         /// <returns>All movies in the database.</returns>
         public List<Movie> ListAll()
         {
-            return FakeDB.movies;
+            return dalFacade.FakeDb.movieDb;
         }
 
         /// <summary>
@@ -39,7 +42,7 @@ namespace VideoAppBLL.Services
         public Movie FindById(int id)
         {
             var foundMovies = from movie
-                in FakeDB.movies
+                in dalFacade.FakeDb.movieDb
                 where movie.Id == id
                 select movie;
 
@@ -78,7 +81,7 @@ namespace VideoAppBLL.Services
         /// <returns>checks if the movie was deleted succesfully</returns>
         public bool Delete(int movieId)
         {
-            return (FakeDB.movies.RemoveAll(video => video.Id == movieId) > 0);
+            return (dalFacade.FakeDb.movieDb.RemoveAll(video => video.Id == movieId) > 0);
         }
     }
 }

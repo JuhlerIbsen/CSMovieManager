@@ -1,6 +1,5 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
-using System.Text;
 using CSVideoMenu;
 
 namespace VideoAppDAL
@@ -8,5 +7,7 @@ namespace VideoAppDAL
     public class FakeDB
     {
         public static List<Movie> movies = new List<Movie>();
+
+        public List<Movie> movieDb { get { return movies; } }
     }
 }
