@@ -7,6 +7,7 @@ namespace CSVideoMenu
     public class OldApplication
     {
 
+        // TODO: Remove when the architecture are in use.
         private static List<Movie> movies = new List<Movie>();
 
         /// <summary>
