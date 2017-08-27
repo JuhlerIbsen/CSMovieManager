@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Compulsory\OldApplication.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\VideoAppDAL\VideoAppDAL.csproj" />
     <ProjectReference Include="..\VideoAppEntity\VideoAppEntity.csproj" />
   </ItemGroup>
