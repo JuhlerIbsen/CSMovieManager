@@ -9,7 +9,7 @@ namespace VideoAppBLL
     {
         // C.R.U.D operations.
         T Add(T type);
-        T ListAll();
+        List<T> ListAll();
         T FindById(int id);
         T Update(T type);
         bool Delete(int id);

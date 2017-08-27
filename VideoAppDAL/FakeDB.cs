@@ -5,8 +5,8 @@ using CSVideoMenu;
 
 namespace VideoAppDAL
 {
-    class FakeDB
+    public class FakeDB
     {
-        private static List<Movie> movies = new List<Movie>();
+        public static List<Movie> movies = new List<Movie>();
     }
 }
