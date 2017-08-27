@@ -11,14 +11,5 @@ namespace VideoAppBLL
 
         public IService<Movie> VideoService => (new VideoService());
 
-        /// <summary>
-        /// Return VideoService which can use c.r.u.d operations.
-        /// </summary>
-        /// <returns>VideoService</returns>
-        public IService<Movie> GetVideoService()
-        {
-            return (new VideoService());
-        }
-
     }
 }
