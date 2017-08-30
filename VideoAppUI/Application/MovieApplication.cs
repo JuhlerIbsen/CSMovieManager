@@ -136,24 +136,62 @@ namespace CSVideoMenu
         private static void AddMovie()
         {
 
-            Movie video = new Movie();
+            bool nextMovie = true;
+
+            List<Movie> movies = new List<Movie> {InitializeMovie()};
+
+            do
+            {
+                Console.WriteLine("Do you want to add more? Yes : No");
+                switch (Console.ReadLine().ToUpper())
+                {
+                    case "YES":
+                        movies.Add(InitializeMovie());
+                        break;
+
+                    case "NO":
+                        AddMovies(movies);
+                        nextMovie = false;
+                        break;
+
+                    default:
+                        Console.WriteLine("I only understand yes and no.");
+                        break;
+                }
+            } while (nextMovie);
+
+        }
+
+        /// <summary>
+        /// Initialize movie.
+        /// </summary>
+        /// <returns>Initialized movie.</returns>
+        private static Movie InitializeMovie()
+        {
+            Movie movie = new Movie();   
 
             Console.WriteLine("Movie Title");
-            video.Title = Console.ReadLine();
+            movie.Title = Console.ReadLine();
 
-            ChooseGenre(video);
-            ChooseFileType(video);
-            ChooseDuration(video);
+            ChooseGenre(movie);
+            ChooseFileType(movie);
+            ChooseDuration(movie);
 
-            if (bllFacade.VideoService.Add(video) != null)
+            return movie;
+        }
+
+        /// <summary>
+        /// Save a list of movies in the database.
+        /// </summary>
+        /// <param name="movies">List of movies to save.</param>
+        private static void AddMovies(List<Movie> movies)
+        {
+            foreach (var movie in movies)
             {
-                Console.WriteLine("Movie succesfully added.");
-            }
-            else
-            {
-                Console.WriteLine("Something went wrong.");
-            }
+                bllFacade.VideoService.Add(movie);
+            }    
 
+            Console.WriteLine($"{movies.Count} movies have been saved to the database.");
         }
 
         /// <summary>
