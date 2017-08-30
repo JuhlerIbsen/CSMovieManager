@@ -5,7 +5,7 @@ using VideoAppBLL;
 
 namespace CSVideoMenu
 {
-    public class MovieApplication
+    public class ConsoleUI
     {
 
         private static BLLFacade bllFacade = new BLLFacade();
@@ -341,20 +341,20 @@ namespace CSVideoMenu
             switch (Console.ReadLine().ToLower())
             {
                 case "mp4":
-                    movie.Extention = Movie.FileType.MP4;
+                    movie.Extention = Movie.FileType.Mp4;
                     break;
 
                 case "mkv":
-                    movie.Extention = Movie.FileType.MKV;
+                    movie.Extention = Movie.FileType.Mkv;
                     break;
 
                 case "avi":
-                    movie.Extention = Movie.FileType.AVI;
+                    movie.Extention = Movie.FileType.Avi;
                     break;
 
                 default:
                     // Default will be .mp4
-                    movie.Extention = Movie.FileType.MP4;
+                    movie.Extention = Movie.FileType.Mp4;
                     break;
             }
         }
@@ -403,7 +403,7 @@ namespace CSVideoMenu
             {
                 Title = "Michael in the woods.",
                 Duration = 3674 * 3,
-                Extention = Movie.FileType.MP4,
+                Extention = Movie.FileType.Mp4,
                 MovieGenre = Movie.Genre.Horror
             });
 
@@ -411,7 +411,7 @@ namespace CSVideoMenu
             {
                 Title = "Dude where's Michael",
                 Duration = 4213,
-                Extention = Movie.FileType.MKV,
+                Extention = Movie.FileType.Mkv,
                 MovieGenre = Movie.Genre.Comedy
             });
 
@@ -419,7 +419,7 @@ namespace CSVideoMenu
             {
                 Title = "Michael rock",
                 Duration = 3600 * 2,
-                Extention = Movie.FileType.AVI,
+                Extention = Movie.FileType.Avi,
                 MovieGenre = Movie.Genre.Romantique
             });
         }

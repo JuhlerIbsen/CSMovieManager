@@ -10,6 +10,10 @@ namespace VideoAppBLL.Services
     {
         private DALFacade dalFacade;
 
+        /// <summary>
+        /// VideoService Constructor.
+        /// </summary>
+        /// <param name="dalFacade">facade to use in this instance.</param>
         public VideoService(DALFacade dalFacade)
         {
             this.dalFacade = dalFacade;

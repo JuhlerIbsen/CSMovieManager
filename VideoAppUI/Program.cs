@@ -7,8 +7,6 @@ namespace VideoAppUI
     class Program
     {
        
-       static BLLFacade bllFacade = new BLLFacade();
-
         /// <summary>
         /// All magic starts here.
         /// </summary>
@@ -17,7 +15,9 @@ namespace VideoAppUI
         {
            
           // Run console application.
-          MovieApplication.RunApplication();
+          ConsoleUI.RunApplication();
+
+          // Reserved for RestAPI.
         }
 
     }

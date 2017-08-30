@@ -19,9 +19,9 @@ namespace CSVideoMenu
 
         public enum FileType
         {
-            MP4,
-            MKV,
-            AVI
+            Mp4,
+            Mkv,
+            Avi
         }
 
         private static int _id = 0;
